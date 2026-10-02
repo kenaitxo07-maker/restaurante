@@ -132,7 +132,12 @@
     grid-row: auto;
     transform: none;
   }
-  .chapter__photo {
+  .chapter--left .chapter__panel,
+  .chapter--right .chapter__panel {
+    margin: 0;
+  }
+  .chapter--left .chapter__photo,
+  .chapter--right .chapter__photo {
     width: 72%;
     margin: -32px 0 0 auto;
   }

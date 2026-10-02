@@ -5,6 +5,7 @@ import Arrow from '../components/Arrow.astro';
 import Photo from '../components/Photo.astro';
 import OccasionCard from '../components/OccasionCard.astro';
 import ReservationBar from '../components/ReservationBar.astro';
+import LineArt from '../components/LineArt.astro';
 import site from '../data/site.json';
 import menus from '../data/menus.json';
 import { mark, plain } from '../lib/text';
@@ -52,20 +53,23 @@ const pillars = [
     t: 'Producto',
     d: 'Verdura de [huerta/proveedor], carne de [origen], pescado de la lonja cada mañana. Lo que no está en su mejor momento, no está en la carta.',
     fact: '[N] proveedores · visitados en persona',
+    art: 'plate',
   },
   {
     n: 'II',
     t: 'Sala',
     d: 'Luz baja, mesas amplias y un silencio que invita a hablar. Cada detalle está pensado para que usted solo tenga que disfrutar.',
     fact: `${site.tablesPerNight} mesas por noche · acústica cuidada`,
+    art: 'candle',
   },
   {
     n: 'III',
     t: 'Servicio',
     d: 'Un equipo que conoce el menú, la bodega y, sobre todo, el momento en que debe aparecer y cuándo no.',
     fact: 'Cada copa a su temperatura',
+    art: 'glass',
   },
-];
+] as const;
 
 const gallery = [
   { ratio: '3:2', art: 'room', brief: 'Sala principal con luz de tarde', alt: 'Sala principal de Áurea con mesas amplias y luz baja', cap: 'La sala' },
@@ -138,6 +142,9 @@ const gallery = [
             </article>
           ))}
         </div>
+        <div class="pillars__fallback no3d-only" aria-hidden="true">
+          {pillars.map((p, i) => <LineArt art={p.art} class={`pillars__art${i === 0 ? ' is-active' : ''}`} />)}
+        </div>
         <div class="pillars__foot">
           <a class="link" href="/reservas" data-cta="pilares">Reservar mesa</a>
           <span class="pillars__hint muted">Mueva el cursor: la mesa le sigue</span>
@@ -170,6 +177,16 @@ const gallery = [
             <span class="clock__time" data-clock>{courses[0].time}</span>
             <span class="clock__pass"><span data-pass-n>01</span> / {String(courses.length).padStart(2, '0')}</span>
           </div>
+          <svg class="dial no3d-only" viewBox="0 0 200 200" aria-hidden="true" fill="none" stroke="currentColor">
+            <circle cx="100" cy="100" r="92" stroke-width=".6" />
+            <circle cx="100" cy="100" r="70" stroke-width=".4" opacity=".5" />
+            {courses.map((_, i) => {
+              const a = (i / courses.length) * Math.PI * 2 - Math.PI / 2;
+              return <circle cx={100 + Math.cos(a) * 81} cy={100 + Math.sin(a) * 81} r="4" class="dial__dot" data-dial-dot={i} />;
+            })}
+            <line x1="100" y1="100" x2="100" y2="30" class="dial__hand" data-dial-hand stroke-width="1" />
+            <circle cx="100" cy="100" r="3" fill="currentColor" />
+          </svg>
           <div class="course" aria-live="polite">
             <p class="course__name" data-course-name>{courses[0].n}</p>
             <p class="course__desc" data-course-desc set:html={mark(courses[0].d)} />

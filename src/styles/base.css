@@ -50,6 +50,10 @@ body {
   overflow-x: clip;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img,
 svg,
 video,

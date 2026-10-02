@@ -56,6 +56,7 @@ function initPromise() {
 function initPillars() {
   const items = document.querySelectorAll<HTMLElement>('[data-pillar]');
   const dots = document.querySelectorAll<HTMLElement>('[data-pillar-dot]');
+  const arts = document.querySelectorAll<SVGElement>('.pillars__art');
   if (!items.length) return;
   let active = -1;
   onFrame((s) => {
@@ -70,6 +71,7 @@ function initPillars() {
       it.setAttribute('aria-hidden', String(k !== idx));
     });
     dots.forEach((d, k) => d.classList.toggle('is-active', k === idx));
+    arts.forEach((a, k) => a.classList.toggle('is-active', k === idx));
   });
 }
 
@@ -91,6 +93,8 @@ function initMenu() {
   const name = document.querySelector<HTMLElement>('[data-course-name]')!;
   const desc = document.querySelector<HTMLElement>('[data-course-desc]')!;
   const box = name.parentElement!;
+  const hand = document.querySelector<SVGElement>('[data-dial-hand]');
+  const dialDots = document.querySelectorAll<SVGElement>('[data-dial-dot]');
   const n = buttons.length;
   const times = buttons.map((b) => toMin(b.dataset.courseTime!));
   times.push(times[n - 1] + 25);
@@ -108,9 +112,11 @@ function initMenu() {
     const frac = clamp(f - idx);
     const t = fmt(times[idx] + (times[idx + 1] - times[idx]) * frac);
     if (t !== lastClock) clock.textContent = lastClock = t;
+    hand?.style.setProperty('transform', `rotate(${((f / n) * 360).toFixed(2)}deg)`);
     if (idx === active) return;
     active = idx;
     passN.textContent = String(idx + 1).padStart(2, '0');
+    dialDots.forEach((d, k) => d.classList.toggle('is-on', k <= idx));
     buttons.forEach((b, k) => {
       b.classList.toggle('is-active', k === idx);
       b.classList.toggle('is-done', k < idx);
@@ -121,7 +127,8 @@ function initMenu() {
     swap = window.setTimeout(() => {
       const b = buttons[idx];
       name.textContent = b.dataset.courseN!;
-      desc.innerHTML = b.dataset.courseD!.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
+      const safe = b.dataset.courseD!.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      desc.innerHTML = safe.replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>');
       box.classList.remove('is-changing');
     }, 280);
   });

@@ -1,0 +1,85 @@
+---
+/** Dibujos de línea dorada (marcadores de foto y modo sin 3D). */
+interface Props {
+  art: 'plate' | 'glass' | 'candle' | 'room' | 'knife' | 'bottle' | 'fish' | 'sprout' | 'toast';
+  class?: string;
+}
+const { art, class: cls } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {art === 'plate' && (<>
+    <circle class="draw" pathLength="1" cx="100" cy="100" r="84" />
+    <circle class="draw" pathLength="1" cx="100" cy="100" r="64" opacity=".6" />
+    <path class="draw" pathLength="1" d="M68 114 C 82 92, 114 84, 136 98" />
+    <circle class="draw" pathLength="1" cx="96" cy="104" r="11" />
+    <circle class="draw" pathLength="1" cx="118" cy="95" r="5" />
+    <circle class="draw" pathLength="1" cx="79" cy="111" r="3" />
+    <path class="draw" pathLength="1" d="M106 116 q12 -16 26 -11 q-7 14 -26 11z M106 116 l18 -8" />
+  </>)}
+  {art === 'glass' && (<>
+    <path class="draw" pathLength="1" d="M74 178 H126 M100 178 V122" />
+    <path class="draw" pathLength="1" d="M100 122 C 72 120, 66 92, 70 42 H 130 C 134 92, 128 120, 100 122 Z" />
+    <path class="draw" pathLength="1" d="M69 86 C 90 91, 110 81, 131 86" />
+    <path class="draw" pathLength="1" d="M80 54 C 78 70, 78 84, 82 96" opacity=".5" />
+  </>)}
+  {art === 'toast' && (<>
+    <g transform="rotate(-12 70 110)">
+      <path class="draw" pathLength="1" d="M52 182 H88 M70 182 V136" />
+      <path class="draw" pathLength="1" d="M70 136 C 50 134, 46 112, 49 72 H 91 C 94 112, 90 134, 70 136 Z" />
+      <path class="draw" pathLength="1" d="M48 102 C 62 106, 78 98, 92 102" />
+    </g>
+    <g transform="rotate(12 130 110)">
+      <path class="draw" pathLength="1" d="M112 182 H148 M130 182 V136" />
+      <path class="draw" pathLength="1" d="M130 136 C 110 134, 106 112, 109 72 H 151 C 154 112, 150 134, 130 136 Z" />
+      <path class="draw" pathLength="1" d="M108 102 C 122 106, 138 98, 152 102" />
+    </g>
+    <path class="draw" pathLength="1" d="M100 52 V40 M88 56 L80 46 M112 56 L120 46" />
+  </>)}
+  {art === 'candle' && (<>
+    <circle class="draw" pathLength="1" cx="100" cy="76" r="46" opacity=".35" />
+    <circle class="draw" pathLength="1" cx="100" cy="76" r="26" opacity=".6" />
+    <path class="draw" pathLength="1" d="M100 56 C 91 71, 91 83, 100 88 C 109 83, 109 71, 100 56 Z" />
+    <path class="draw" pathLength="1" d="M100 96 V88" />
+    <path class="draw" pathLength="1" d="M90 96 H110 V172 H90 Z" />
+    <path class="draw" pathLength="1" d="M78 180 H122 M84 180 V172 H116 V180" />
+  </>)}
+  {art === 'room' && (<>
+    <path class="draw" pathLength="1" d="M26 172 V74 A 32 32 0 0 1 90 74 V172" />
+    <path class="draw" pathLength="1" d="M110 172 V74 A 32 32 0 0 1 174 74 V172" />
+    <path class="draw" pathLength="1" d="M12 172 H188" />
+    <path class="draw" pathLength="1" d="M100 0 V52 M86 64 A 14 12 0 0 1 114 64 Z" />
+    <path class="draw" pathLength="1" d="M70 134 H130 M100 134 V172" />
+    <path class="draw" pathLength="1" d="M56 172 V142 H70 M144 172 V142 H130" />
+    <path class="draw" pathLength="1" d="M70 76 L100 134 L130 76" opacity=".25" />
+  </>)}
+  {art === 'knife' && (<>
+    <path class="draw" pathLength="1" d="M60 146 L 148 58 C 158 50, 166 56, 160 66 L 76 150 Z" />
+    <path class="draw" pathLength="1" d="M60 146 L 38 168 L 46 176 L 68 154" />
+    <path class="draw" pathLength="1" d="M116 168 C 128 146, 140 132, 166 118" />
+    <path class="draw" pathLength="1" d="M132 146 q 10 -16 24 -9 q -8 13 -24 9z" />
+    <path class="draw" pathLength="1" d="M146 132 q 2 -17 17 -19 q 0 15 -17 19z" />
+    <path class="draw" pathLength="1" d="M124 158 q -16 -6 -18 -20 q 14 2 18 20z" />
+  </>)}
+  {art === 'bottle' && (<>
+    <path class="draw" pathLength="1" d="M78 180 V 92 C 78 80, 86 72, 86 60 V 22 H 98 V 60 C 98 72, 106 80, 106 92 V 180 Z" />
+    <path class="draw" pathLength="1" d="M82 114 H102 V146 H82 Z" />
+    <path class="draw" pathLength="1" d="M134 180 H162 M148 180 V152" />
+    <path class="draw" pathLength="1" d="M148 152 C 134 152, 130 138, 133 116 H 163 C 166 138, 162 152, 148 152 Z" />
+    <path class="draw" pathLength="1" d="M132 132 C 142 135, 154 129, 164 132" />
+  </>)}
+  {art === 'fish' && (<>
+    <path class="draw" pathLength="1" d="M34 100 C 66 62, 128 62, 154 100 C 128 138, 66 138, 34 100 Z" />
+    <path class="draw" pathLength="1" d="M154 100 L 182 78 V 122 Z" />
+    <circle class="draw" pathLength="1" cx="62" cy="94" r="3" />
+    <path class="draw" pathLength="1" d="M82 82 C 89 93, 89 107, 82 118" />
+    <path class="draw" pathLength="1" d="M98 88 L 140 100 L 98 112" opacity=".4" />
+    <path class="draw" pathLength="1" d="M20 150 C 60 160, 140 160, 180 150" opacity=".5" />
+  </>)}
+  {art === 'sprout' && (<>
+    <path class="draw" pathLength="1" d="M100 182 L 86 98 C 86 86, 114 86, 114 98 Z" />
+    <path class="draw" pathLength="1" d="M100 90 C 96 70, 84 60, 70 56" />
+    <path class="draw" pathLength="1" d="M100 90 C 100 66, 104 52, 112 38" />
+    <path class="draw" pathLength="1" d="M100 90 C 108 72, 122 64, 138 62" />
+    <path class="draw" pathLength="1" d="M90 118 H98 M95 140 H103 M90 160 H96" />
+  </>)}
+</svg>

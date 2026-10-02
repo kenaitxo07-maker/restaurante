@@ -451,6 +451,7 @@
   .tasting__stage {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
   .course {
     grid-column: 1;
@@ -604,9 +605,10 @@
     height: auto;
     padding-block: var(--section);
   }
-  .gallery__sticky {
+  .gallery[data-pin] > .gallery__sticky {
     position: relative;
     height: auto;
+    overflow: visible;
     padding-top: 0;
     gap: 32px;
   }
@@ -898,4 +900,88 @@
   inset: 0;
   pointer-events: none;
   background: radial-gradient(60% 45% at 50% 48%, rgba(20, 17, 15, 0.62), transparent 75%);
+}
+
+.pillars__head .eyebrow {
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .pillars__nav {
+    gap: 10px;
+  }
+  .pillars__nav li {
+    width: 38px;
+  }
+  .pillars__head .eyebrow::before {
+    width: 20px;
+  }
+}
+
+/* ---------- Modo sin 3D (movimiento reducido, sin GPU) ---------- */
+.no3d-only {
+  display: none;
+}
+.no-3d .no3d-only {
+  display: block;
+}
+.pillars__fallback {
+  position: absolute;
+  top: 50%;
+  right: var(--gutter);
+  width: min(42vw, 520px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  color: var(--oro);
+  pointer-events: none;
+}
+.pillars__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 800ms var(--ease-soft);
+}
+.pillars__art.is-active {
+  opacity: 0.8;
+}
+.pillars__art * {
+  vector-effect: non-scaling-stroke;
+}
+.dial {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(46vh, 70vw);
+  height: auto;
+  transform: translate(-50%, -50%);
+  color: var(--oro);
+  pointer-events: none;
+}
+.dial * {
+  vector-effect: non-scaling-stroke;
+}
+.dial__dot {
+  fill: var(--carbon);
+  transition: fill 500ms var(--ease);
+}
+.dial__dot.is-on {
+  fill: var(--oro);
+}
+.dial__hand {
+  transform-origin: 100px 100px;
+  transition: transform 300ms linear;
+}
+@media (max-width: 760px) {
+  .pillars__fallback {
+    top: 34%;
+    left: 50%;
+    right: auto;
+    width: 56vw;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.no-3d .pillars__hint {
+  display: none;
 }
