@@ -1,0 +1,27 @@
+---
+import Legal from '../layouts/Legal.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+const m = mark;
+---
+<Legal title="Aviso legal · Áurea" h1="Aviso legal" crumb="Aviso legal" description="Datos del titular, condiciones de uso, propiedad intelectual y responsabilidad del sitio web de Áurea, restaurante de alta cocina.">
+  <p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico, se informa de los datos del titular de este sitio web:</p>
+  <ul>
+    <li><strong>Titular:</strong> <Fragment set:html={m(site.legalName)} /></li>
+    <li><strong>NIF/CIF:</strong> <Fragment set:html={m(site.nif)} /></li>
+    <li><strong>Domicilio:</strong> <Fragment set:html={m(site.address.full)} /></li>
+    <li><strong>Correo electrónico:</strong> <Fragment set:html={m(site.email)} /></li>
+    <li><strong>Teléfono:</strong> <Fragment set:html={m(site.phone)} /></li>
+    <li><strong>Inscripción registral:</strong> <Fragment set:html={m(site.registry)} /> (si procede)</li>
+  </ul>
+  <h2>Objeto</h2>
+  <p>Este sitio web ofrece información sobre el restaurante Áurea y permite solicitar reservas y presupuestos de eventos. El acceso es gratuito.</p>
+  <h2>Condiciones de uso</h2>
+  <p>Usted se compromete a hacer un uso lícito del sitio y a no realizar acciones que dañen su funcionamiento, los derechos de terceros o la imagen del titular.</p>
+  <h2>Propiedad intelectual e industrial</h2>
+  <p>Los textos, imágenes, logotipos, diseño y código del sitio pertenecen a <Fragment set:html={m('[Titular]')} /> o a sus licenciantes. Queda prohibida su reproducción, distribución o transformación sin autorización expresa.</p>
+  <h2>Responsabilidad</h2>
+  <p>El titular no garantiza la disponibilidad ininterrumpida del sitio ni se hace responsable de los daños derivados de interrupciones, errores o enlaces a webs de terceros. La carta, los precios y los horarios pueden cambiar sin previo aviso; prevalece la información confirmada al reservar.</p>
+  <h2>Legislación y jurisdicción</h2>
+  <p>Este aviso se rige por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales de <Fragment set:html={m(site.city)} />, salvo que la normativa de consumidores establezca otro fuero.</p>
+</Legal>

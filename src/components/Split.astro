@@ -1,0 +1,12 @@
+---
+/**
+ * Divide un titular en palabras para que suban una a una al aparecer.
+ * Las palabras entre corchetes se marcan como dato pendiente.
+ */
+interface Props { text: string; delay?: number }
+const { text, delay = 0 } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+<span class="split" style={delay ? `--delay:${delay}ms` : undefined}>{words.map((w, i) => (
+  <><span class="w"><span style={`--i:${i}`} class={/\[|\]/.test(w) ? 'ph-w' : undefined}>{w}</span></span>{i < words.length - 1 ? ' ' : ''}</>
+))}</span>

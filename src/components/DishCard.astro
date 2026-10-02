@@ -1,0 +1,12 @@
+---
+/** Tarjeta de plato: foto 4:5 + nombre + una línea. */
+import Photo from './Photo.astro';
+import { mark, plain } from '../lib/text';
+interface Props { art: 'plate' | 'fish' | 'sprout' | 'glass' | 'knife'; name: string; line: string; index?: number }
+const { art, name, line, index = 0 } = Astro.props;
+---
+<article class="dish" data-reveal style={`--delay:${index * 120}ms`}>
+  <Photo ratio="4:5" art={art} brief={`Plato: ${plain(line)}`} alt={`${plain(line)} en Áurea`} light={index % 2 ? '40% 30%' : '60% 35%'} />
+  <h3 class="dish__name">{name}</h3>
+  <p class="dish__line" set:html={mark(line)} />
+</article>

@@ -1,0 +1,49 @@
+---
+import Logo from './Logo.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+---
+<footer class="footer">
+  <div class="container">
+    <div class="grid-12">
+      <div class="footer__brand">
+        <Logo />
+        <p set:html={`Áurea · Alta cocina en ${mark(site.city)}. Cocina de autor, sala serena y un servicio que se anticipa.`} />
+      </div>
+      <div class="footer__col footer__col--wide">
+        <p class="footer__title">Horario</p>
+        <p set:html={mark(site.hoursText)} />
+      </div>
+      <div class="footer__col">
+        <p class="footer__title">Visítenos</p>
+        <ul>
+          <li set:html={mark(site.address.full)} />
+          <li><a href={`tel:${site.phoneHref}`} set:html={mark(site.phone)} /></li>
+          <li><a href={`mailto:${site.emailHref}`} set:html={mark(site.email)} /></li>
+          <li><a href="/contacto">Cómo llegar</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__title">Áurea</p>
+        <ul>
+          <li><a href="/experiencia">La experiencia</a></li>
+          <li><a href="/menus">Menús y bodega</a></li>
+          <li><a href="/eventos">Eventos privados</a></li>
+          <li><a href="/reservas">Reservar mesa</a></li>
+          <li><a href={site.instagram} rel="noopener" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>Informamos de alérgenos en sala y a petición.</p>
+      <div class="footer__legal">
+        <a href="/aviso-legal">Aviso legal</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/cookies">Cookies</a>
+        <button type="button" data-cookie-open>Configurar cookies</button>
+      </div>
+      <p set:html={`© ${site.year} ${mark(site.legalName)}`} />
+    </div>
+    <div class="footer__wordmark" aria-hidden="true">Áurea</div>
+  </div>
+</footer>

@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import DishCard from '../components/DishCard.astro';
+import Split from '../components/Split.astro';
+import Arrow from '../components/Arrow.astro';
+import site from '../data/site.json';
+import menus from '../data/menus.json';
+import { mark } from '../lib/text';
+
+const t = menus.tasting;
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV'];
+const featured = [
+  { art: 'sprout', c: t.courses[1] },
+  { art: 'fish', c: t.courses[4] },
+  { art: 'plate', c: t.courses[5] },
+] as const;
+---
+<Base
+  title={`Menú degustación y bodega · Áurea ${site.city}`}
+  description={`Menú degustación de ${site.passes} pases, menú de mediodía y maridajes. Consulte precios y alérgenos y reserve en Áurea.`}
+  scene="orbit"
+  crumb="Menús y bodega"
+>
+  <PageHero
+    eyebrow={`Menús y bodega · ${menus.season}`}
+    title="El menú."
+    intro="Dos formas de recorrer Áurea. Los menús cambian con la temporada; la versión vigente está siempre aquí."
+    crumb="Menús y bodega"
+  >
+    <nav class="menu-jump" aria-label="En esta página" data-reveal style="--delay:350ms">
+      <a class="link" href="#degustacion">Menú degustación</a>
+      <a class="link" href="#mediodia">Menú de mediodía</a>
+      <a class="link" href="#bodega">Bodega y maridajes</a>
+    </nav>
+  </PageHero>
+
+  <div class="section--light menu-sheet">
+    <!-- Menú degustación -->
+    <section class="section menu-block" id="degustacion" aria-labelledby="degustacion-title">
+      <div class="container grid-12">
+        <header class="menu-block__head">
+          <p class="eyebrow" data-reveal>{t.name}</p>
+          <h2 id="degustacion-title" data-reveal="fade"><Split text={`Un recorrido de ${site.passes} pases.`} /></h2>
+          <p class="menu-block__price" data-reveal set:html={`${mark(t.price)} <span class="per">por persona</span>`} />
+          <p class="muted" data-reveal set:html={`Maridaje desde ${mark(t.pairingFrom)}. Una cena de ${t.duration}, de aperitivo en sala a sobremesa.`} />
+          <a class="btn" href="/reservas" data-cta="menus-degustacion" data-reveal>Reservar mesa<Arrow /></a>
+        </header>
+        <ol class="courses">
+          {t.courses.map((c, i) => (
+            <li class="courses__item" data-reveal style={`--delay:${(i % 4) * 60}ms`}>
+              <span class="courses__n">{roman[i]}</span>
+              <div>
+                <h3 class="courses__name">{c.n}</h3>
+                <p class="courses__desc" set:html={mark(c.d)} />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section menu-featured" aria-labelledby="destacados-title">
+      <div class="container">
+        <div class="menu-featured__head">
+          <p class="eyebrow" data-reveal>Esta temporada</p>
+          <h2 id="destacados-title" data-reveal="fade"><Split text="Tres pases del menú actual." /></h2>
+        </div>
+        <div class="dish-grid">
+          {featured.map((f, i) => (
+            <DishCard art={f.art} name={f.c.n} line={f.c.d} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Menú de mediodía -->
+    <section class="section menu-block menu-block--lunch" id="mediodia" aria-labelledby="mediodia-title">
+      <div class="container grid-12">
+        <header class="menu-block__head">
+          <p class="eyebrow" data-reveal>{menus.lunch.name}</p>
+          <h2 id="mediodia-title" data-reveal="fade"><Split text="Mediodía, a su hora." /></h2>
+          <p class="menu-block__price" data-reveal set:html={`${mark(menus.lunch.price)} <span class="per">por persona</span>`} />
+          <p class="muted" data-reveal set:html={`${menus.lunch.description} Comidas de ${mark(site.lunchDays)}.`} />
+        </header>
+        <ol class="courses courses--compact">
+          {menus.lunch.courses.map((c, i) => (
+            <li class="courses__item" data-reveal>
+              <span class="courses__n">{roman[i]}</span>
+              <div>
+                <h3 class="courses__name">{c.n}</h3>
+                <p class="courses__desc" set:html={mark(c.d)} />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- Bodega y maridajes -->
+    <section class="section cellar" id="bodega" aria-labelledby="bodega-title">
+      <div class="container">
+        <div class="cellar__head">
+          <p class="eyebrow" data-reveal>Bodega y maridajes</p>
+          <h2 id="bodega-title" data-reveal="fade"><Split text={`${menus.cellar.references} referencias de ${menus.cellar.zones}.`} /></h2>
+          <p class="muted" data-reveal set:html={`Nuestro sumiller ${mark(site.sommelier)} le propone maridajes con o sin alcohol.`} />
+        </div>
+        <div class="pairings">
+          {menus.pairings.map((p, i) => (
+            <article class="pairing" data-reveal style={`--delay:${i * 100}ms`}>
+              <p class="pairing__n">{roman[i]}</p>
+              <h3>{p.n}</h3>
+              <p class="pairing__price" set:html={mark(p.price)} />
+              <p class="muted" set:html={mark(p.d)} />
+            </article>
+          ))}
+        </div>
+        <ul class="cellar__list">
+          {menus.cellar.sections.map((s) => (
+            <li data-reveal>
+              <h3>{s.n}</h3>
+              <p class="muted" set:html={mark(s.d)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Alergias -->
+    <section class="section allergy" aria-labelledby="alergias-title">
+      <div class="container allergy__inner">
+        <svg class="allergy__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="24" cy="24" r="22" /><path d="M24 12v16M24 33v2" /></svg>
+        <div>
+          <h2 id="alergias-title" class="allergy__title">Alergias e intolerancias</h2>
+          <p set:html={mark(menus.allergies)} />
+          <p class="muted">Informamos de alérgenos en sala y a petición.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="closing" data-shot="closing">
+    <div class="container">
+      <p class="eyebrow eyebrow--plain" data-reveal>Áurea</p>
+      <h2 data-reveal="fade" style="margin-top:20px"><Split text="Reserve su menú." /></h2>
+      <p data-reveal>Indique al reservar si celebra algo o si hay alergias en la mesa.</p>
+      <div class="actions" data-reveal>
+        <a class="btn" href="/reservas" data-cta="closing" data-magnetic>Reservar mesa<Arrow /></a>
+        <a class="link" href="/contacto">Cómo llegar</a>
+      </div>
+    </div>
+  </section>
+</Base>

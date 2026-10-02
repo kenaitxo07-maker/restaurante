@@ -1,0 +1,33 @@
+---
+/**
+ * Reserva rápida: día, hora y comensales. Continúa en /reservas con los datos
+ * ya elegidos («reserva en dos clics»). Los días se rellenan en el navegador
+ * a partir del horario de site.json.
+ */
+import Arrow from './Arrow.astro';
+import site from '../data/site.json';
+const max = site.onlineMaxGuests;
+---
+<form class="quick" action="/reservas" method="get" data-quick-reserve data-reveal>
+  <div class="quick__field">
+    <label for="q-fecha">Día</label>
+    <select id="q-fecha" name="fecha" data-date-select data-closed={JSON.stringify(site.closedWeekdays)}>
+      <option value="">Elegir día</option>
+    </select>
+  </div>
+  <div class="quick__field">
+    <label for="q-hora">Hora</label>
+    <select id="q-hora" name="hora">
+      <option value="">Elegir hora</option>
+      <optgroup label="Comida">{site.slots.lunch.map((s) => <option value={s}>{s}</option>)}</optgroup>
+      <optgroup label="Cena">{site.slots.dinner.map((s) => <option value={s}>{s}</option>)}</optgroup>
+    </select>
+  </div>
+  <div class="quick__field">
+    <label for="q-pax">Comensales</label>
+    <select id="q-pax" name="comensales">
+      {Array.from({ length: max }, (_, i) => i + 1).map((n) => <option value={n} selected={n === 2}>{n} {n === 1 ? 'persona' : 'personas'}</option>)}
+    </select>
+  </div>
+  <button class="btn quick__submit" type="submit" data-cta="final" data-magnetic>Reservar mesa<Arrow /></button>
+</form>

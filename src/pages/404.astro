@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+---
+<Base title="Página no encontrada · Áurea" description="La página que busca no está disponible. Vuelva al inicio o reserve su mesa en Áurea." noindex>
+  <section class="page-hero" data-shot="hero">
+    <div class="container page-hero__inner">
+      <p class="eyebrow">Error 404</p>
+      <h1>Esta mesa no existe.</h1>
+      <p class="lead">La página que busca no está disponible. Le acompañamos de vuelta.</p>
+      <div class="actions" style="margin-top:40px">
+        <a class="btn" href="/reservas" data-cta="404">Reservar mesa<Arrow /></a>
+        <a class="link" href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Base>

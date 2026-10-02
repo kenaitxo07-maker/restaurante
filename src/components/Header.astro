@@ -1,0 +1,43 @@
+---
+import Logo from './Logo.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const links = [
+  { href: '/experiencia', label: 'Experiencia' },
+  { href: '/menus', label: 'Menús y bodega' },
+  { href: '/eventos', label: 'Eventos' },
+  { href: '/contacto', label: 'Contacto' },
+];
+const current = (href: string) => (path === href ? 'page' : undefined);
+---
+<header class="header" data-header>
+  <div class="container header__inner">
+    <Logo />
+    <nav class="nav" aria-label="Principal">
+      {links.map((l) => <a class="nav__link" href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
+    </nav>
+    <div class="header__cta">
+      <a class="btn btn--sm" href="/reservas" data-cta="header" data-magnetic>Reservar</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-panel" data-burger>
+        <span></span><span></span>
+        <span class="sr-only">Abrir menú</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-panel" id="menu-panel" data-menu-panel>
+  <nav aria-label="Menú móvil">
+    <ul class="menu-panel__list">
+      {links.map((l, i) => <li><a href={l.href} aria-current={current(l.href)}><small>0{i + 1}</small>{l.label}</a></li>)}
+      <li><a href="/reservas"><small>05</small>Reservar mesa</a></li>
+    </ul>
+  </nav>
+  <div class="menu-panel__meta">
+    <span set:html={mark(site.hoursShort)} />
+    <a href={`tel:${site.phoneHref}`} set:html={mark(site.phone)} />
+    <span set:html={mark(site.address.full)} />
+  </div>
+</div>

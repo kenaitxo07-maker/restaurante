@@ -1,0 +1,12 @@
+---
+interface Props { href?: string; class?: string }
+const { href = '/', class: cls = '' } = Astro.props;
+---
+<a href={href} class={`logo ${cls}`} aria-label="Áurea · Inicio">
+  <svg class="logo__mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+    <circle cx="16" cy="16" r="14.5" />
+    <ellipse cx="16" cy="16" rx="6.5" ry="14.5" />
+    <circle cx="16" cy="16" r="1.6" fill="currentColor" stroke="none" />
+  </svg>
+  <span class="logo__word">Áurea</span>
+</a>

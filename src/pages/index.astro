@@ -1,0 +1,283 @@
+---
+import Base from '../layouts/Base.astro';
+import Split from '../components/Split.astro';
+import Arrow from '../components/Arrow.astro';
+import Photo from '../components/Photo.astro';
+import OccasionCard from '../components/OccasionCard.astro';
+import ReservationBar from '../components/ReservationBar.astro';
+import site from '../data/site.json';
+import menus from '../data/menus.json';
+import { mark, plain } from '../lib/text';
+
+const courses = menus.tasting.courses;
+
+const restaurantLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: site.name,
+  url: site.url,
+  image: [new URL(site.ogImage, site.url).href],
+  logo: new URL('/favicon.svg', site.url).href,
+  description: 'Cocina de autor, sala serena y servicio impecable. Menú degustación de temporada.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    postalCode: site.address.postalCode,
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  telephone: site.phoneHref,
+  email: site.emailHref,
+  priceRange: site.priceRange,
+  servesCuisine: site.cuisine,
+  acceptsReservations: true,
+  menu: new URL('/menus', site.url).href,
+  hasMenu: new URL('/menus', site.url).href,
+  openingHoursSpecification: site.openingHours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days.map((d) => `https://schema.org/${d}`),
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  sameAs: [site.instagram],
+};
+
+const promise = `En Áurea servimos ${site.tablesPerNight} mesas por noche. Pocas, a propósito. Así cada plato llega a su punto, cada copa a su temperatura y cada conversación a su ritmo.`;
+
+const pillars = [
+  {
+    n: 'I',
+    t: 'Producto',
+    d: 'Verdura de [huerta/proveedor], carne de [origen], pescado de la lonja cada mañana. Lo que no está en su mejor momento, no está en la carta.',
+    fact: '[N] proveedores · visitados en persona',
+  },
+  {
+    n: 'II',
+    t: 'Sala',
+    d: 'Luz baja, mesas amplias y un silencio que invita a hablar. Cada detalle está pensado para que usted solo tenga que disfrutar.',
+    fact: `${site.tablesPerNight} mesas por noche · acústica cuidada`,
+  },
+  {
+    n: 'III',
+    t: 'Servicio',
+    d: 'Un equipo que conoce el menú, la bodega y, sobre todo, el momento en que debe aparecer y cuándo no.',
+    fact: 'Cada copa a su temperatura',
+  },
+];
+
+const gallery = [
+  { ratio: '3:2', art: 'room', brief: 'Sala principal con luz de tarde', alt: 'Sala principal de Áurea con mesas amplias y luz baja', cap: 'La sala' },
+  { ratio: '4:5', art: 'plate', brief: 'Emplatado, manos del equipo', alt: 'Manos del equipo de cocina emplatando un pase del menú degustación', cap: 'El pase' },
+  { ratio: '1:1', art: 'candle', brief: 'Detalle de mesa con vela', alt: 'Mesa de Áurea con vela encendida y copa de vino', cap: 'Mesa para dos' },
+  { ratio: '4:5', art: 'bottle', brief: 'Bodega, botellas en penumbra', alt: 'Bodega de Áurea con botellas seleccionadas', cap: 'La bodega' },
+  { ratio: '3:2', art: 'fish', brief: 'Brasa, pescado de lonja', alt: 'Pescado de lonja asándose a la brasa en la cocina de Áurea', cap: 'La brasa' },
+  { ratio: '1:1', art: 'glass', brief: 'Sobremesa, último vino', alt: 'Copa de vino durante la sobremesa en Áurea', cap: 'Sobremesa' },
+] as const;
+---
+<Base
+  title={`Áurea · Restaurante de alta cocina en ${site.city}`}
+  description={`Cocina de autor, sala serena y servicio impecable. Menú degustación de temporada en ${site.city}. Reserve su mesa en Áurea.`}
+  scene="home"
+  ogType="restaurant.restaurant"
+  jsonLd={[restaurantLd]}
+  intro
+>
+  <!-- 1 · Hero -->
+  <section class="hero" data-shot="hero" id="inicio">
+    <div class="container hero__inner">
+      <h1 class="hero__title">
+        <span class="eyebrow hero__eyebrow" data-reveal>Áurea · Alta cocina · <Fragment set:html={mark(site.city)} /></span>
+        <span class="hero__display" data-reveal="fade"><Split text="Una mesa" delay={200} /><br /><em><Split text="para recordar." delay={420} /></em></span>
+      </h1>
+      <p class="hero__sub" data-reveal style="--delay:700ms" set:html={`Cocina de autor, sala serena y un servicio que se anticipa. Cenas desde las ${mark(site.dinnerFrom)} h, comidas de ${mark(site.lunchDays)}.`} />
+      <div class="actions" data-reveal style="--delay:850ms">
+        <a class="btn" href="/reservas" data-cta="hero" data-magnetic>Reservar mesa<Arrow /></a>
+        <a class="btn btn--ghost" href="/menus">Ver el menú</a>
+      </div>
+    </div>
+    <dl class="hero__facts container" data-reveal style="--delay:1000ms">
+      <div><dt>Mesas por noche</dt><dd set:html={mark(site.tablesPerNight)} /></div>
+      <div><dt>Pases</dt><dd set:html={mark(site.passes)} /></div>
+      <div><dt>Duración</dt><dd>Unas tres horas</dd></div>
+    </dl>
+    <span class="scroll-cue" aria-hidden="true">La noche</span>
+  </section>
+
+  <!-- 2 · Presentación: la promesa -->
+  <section class="promise" data-shot="promesa" data-pin id="presentacion" aria-labelledby="promesa-title">
+    <div class="promise__sticky">
+      <div class="container promise__inner">
+        <p class="eyebrow" data-reveal>Presentación</p>
+        <h2 id="promesa-title" class="promise__title" data-reveal="fade"><Split text="Despacio, como se disfruta lo bueno." /></h2>
+        <p class="promise__text" data-scrub-words set:html={mark(promise)} />
+        <p class="promise__coda muted" data-reveal>Cocinamos producto de temporada con técnica precisa y lo servimos en una sala pensada para quedarse.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Tres pilares (escena 3D: la mesa) -->
+  <section class="pillars" data-shot="pilares" data-pin id="pilares" aria-labelledby="pilares-title">
+    <div class="pillars__sticky">
+      <div class="container pillars__inner">
+        <div class="pillars__head">
+          <p class="eyebrow">Tres pilares</p>
+          <h2 id="pilares-title" class="sr-only">Producto, sala y servicio</h2>
+          <ol class="pillars__nav" aria-hidden="true">
+            {pillars.map((p, i) => <li data-pillar-dot={i}><span>{p.n}</span><i></i></li>)}
+          </ol>
+        </div>
+        <div class="pillars__list">
+          {pillars.map((p, i) => (
+            <article class="pillar" data-pillar={i}>
+              <p class="pillar__n num">{p.n}</p>
+              <h3 class="pillar__t">{p.t}</h3>
+              <p class="pillar__d" set:html={mark(p.d)} />
+              <p class="pillar__fact" set:html={mark(p.fact)} />
+            </article>
+          ))}
+        </div>
+        <div class="pillars__foot">
+          <a class="link" href="/reservas" data-cta="pilares">Reservar mesa</a>
+          <span class="pillars__hint muted">Mueva el cursor: la mesa le sigue</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Menú degustación (escena 3D: el recorrido de pases) -->
+  <section class="tasting" data-shot="tasting" id="menu" aria-labelledby="menu-title">
+    <div class="container tasting__intro grid-12">
+      <div class="tasting__copy">
+        <p class="eyebrow" data-reveal>Menú degustación</p>
+        <h2 id="menu-title" data-reveal="fade"><Split text={`Un recorrido de ${site.passes} pases.`} /></h2>
+      </div>
+      <div class="tasting__text">
+        <p data-reveal>El menú degustación cambia con la temporada. Una cena de unas tres horas que empieza con un aperitivo en sala y termina en la sobremesa, con café, petits fours y, si lo desea, un último vino.</p>
+        <p class="tasting__price" data-reveal set:html={`${mark(menus.tasting.price)} por persona <span aria-hidden="true">·</span> Maridaje desde ${mark(menus.tasting.pairingFrom)}`} />
+        <div class="actions" data-reveal>
+          <a class="btn btn--ghost" href="/menus">Ver menús y bodega<Arrow /></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasting__pin" data-shot="menu" data-pin>
+      <div class="tasting__sticky">
+        <div class="container tasting__stage">
+          <div class="clock" aria-hidden="true">
+            <span class="clock__label">Su noche</span>
+            <span class="clock__time" data-clock>{courses[0].time}</span>
+            <span class="clock__pass"><span data-pass-n>01</span> / {String(courses.length).padStart(2, '0')}</span>
+          </div>
+          <div class="course" aria-live="polite">
+            <p class="course__name" data-course-name>{courses[0].n}</p>
+            <p class="course__desc" data-course-desc set:html={mark(courses[0].d)} />
+          </div>
+          <ol class="timeline" aria-label="Pases del menú degustación">
+            {courses.map((c, i) => (
+              <li>
+                <button type="button" class="timeline__item" data-course={i} data-course-time={c.time} data-course-n={c.n} data-course-d={c.d}>
+                  <span class="timeline__time">{c.time}</span>
+                  <span class="timeline__name">{c.n}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · El chef -->
+  <section class="chef section" data-shot="chef" id="chef" aria-labelledby="chef-title">
+    <div class="container grid-12 chef__grid">
+      <div class="chef__photo">
+        <Photo ratio="4:5" art="knife" brief="Retrato del chef en cocina, luz lateral" alt={`${plain(site.chef.name)}, chef de Áurea, en la cocina`} light="30% 30%" />
+        <span class="chef__badge" aria-hidden="true">Cocina de autor</span>
+      </div>
+      <div class="chef__copy">
+        <p class="eyebrow" data-reveal>El chef</p>
+        <h2 id="chef-title" data-reveal="fade"><Split text={`Cocina de ${site.chef.name}.`} /></h2>
+        <p data-reveal set:html={`${mark(site.chef.name)} cocina lo que conoce y respeta: ${mark(site.chef.origin)}. Formado en ${mark(site.chef.training)}, regresó a ${mark(site.city)} para abrir Áurea con una idea sencilla: menos artificio, más producto.`} />
+        <blockquote class="chef__quote" data-reveal set:html={mark(site.chef.quote)} />
+        <a class="link" href="/experiencia" data-reveal>Conocer la experiencia</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Galería de ambiente (desplazamiento horizontal) -->
+  <section class="gallery" data-shot="galeria" data-pin id="galeria" aria-labelledby="galeria-title">
+    <div class="gallery__sticky">
+      <div class="container gallery__head">
+        <p class="eyebrow">Galería de ambiente</p>
+        <h2 id="galeria-title"><Split text="Luz baja, mesas amplias." /></h2>
+        <span class="gallery__count muted" aria-hidden="true"><span data-gallery-count>01</span> / {String(gallery.length).padStart(2, '0')}</span>
+      </div>
+      <div class="gallery__viewport" data-cursor-label="Desplace">
+        <ul class="gallery__track" data-gallery-track>
+          {gallery.map((g, i) => (
+            <li class={`gallery__item gallery__item--${g.ratio.replace(':', 'x')}`}>
+              <Photo ratio={g.ratio} art={g.art} brief={g.brief} alt={g.alt} parallax={false} light={i % 2 ? '35% 30%' : '65% 35%'} />
+              <p class="gallery__cap"><span class="num">{String(i + 1).padStart(2, '0')}</span> {g.cap}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="container gallery__progress" aria-hidden="true"><i data-gallery-bar></i></div>
+    </div>
+  </section>
+
+  <!-- 7 · Para cada ocasión -->
+  <section class="occasions section" data-shot="ocasiones" id="ocasiones" aria-labelledby="ocasiones-title">
+    <div class="container">
+      <div class="occasions__head">
+        <p class="eyebrow" data-reveal>Para cada ocasión</p>
+        <h2 id="ocasiones-title" data-reveal="fade"><Split text="¿Qué celebra esta noche?" /></h2>
+      </div>
+      <div class="occasions__grid">
+        <OccasionCard n="01" art="toast" title="En pareja" text="Un aniversario, una primera vez, una noche sin prisa. Díganos la ocasión y cuidaremos el resto." cta="Reservar" href="/reservas?ocasion=Aniversario" />
+        <OccasionCard n="02" art="knife" title="Comidas de negocio" text="Mesas con privacidad, puntualidad exacta y una carta ágil de mediodía." cta="Ver eventos" href="/eventos" />
+        <OccasionCard n="03" art="candle" title="Celebraciones" text={`Salón privado para ${site.privateRoomCapacity} personas y un menú a medida.`} cta="Solicitar propuesta" href="/eventos#solicitud" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · Opiniones y reconocimientos: solo reales. Se oculta mientras no haya reseñas. -->
+  {site.reviews.length > 0 && (
+    <section class="reviews section" id="opiniones" aria-labelledby="opiniones-title">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Opiniones y reconocimientos</p>
+        <h2 id="opiniones-title" data-reveal="fade"><Split text="Lo que dicen de Áurea." /></h2>
+        <div class="reviews__grid">
+          {(site.reviews as { quote: string; name: string; source: string; url?: string }[]).map((r) => (
+            <figure class="review" data-reveal>
+              <blockquote>«{r.quote}»</blockquote>
+              <figcaption>{r.name} · {r.url ? <a href={r.url} rel="noopener" target="_blank">{r.source}</a> : r.source}</figcaption>
+            </figure>
+          ))}
+        </div>
+        {site.awards.length > 0 && (
+          <ul class="awards" data-reveal>
+            {(site.awards as { name: string; logo?: string }[]).map((a) => <li>{a.logo ? <img src={a.logo} alt={a.name} loading="lazy" /> : a.name}</li>)}
+          </ul>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- 9 · Bloque final de reserva -->
+  <section class="final" data-shot="final" id="reservar" aria-labelledby="final-title">
+    <div class="container final__inner">
+      <p class="eyebrow eyebrow--plain" data-reveal>Reservas</p>
+      <h2 id="final-title" class="final__title" data-reveal="fade"><Split text="Su mesa le espera." /></h2>
+      <p class="final__text" data-reveal set:html={`Reserve en línea en menos de un minuto o llámenos al <a href="tel:${site.phoneHref}">${mark(site.phone)}</a>. Si celebra algo, cuéntenoslo.`} />
+      <ReservationBar />
+      <ul class="final__info" data-reveal>
+        <li set:html={mark(site.address.full)} />
+        <li set:html={mark(site.hoursShort)} />
+        <li set:html={mark(site.parking)} />
+      </ul>
+    </div>
+  </section>
+</Base>

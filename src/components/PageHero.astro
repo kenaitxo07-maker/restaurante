@@ -1,0 +1,21 @@
+---
+import Split from './Split.astro';
+import { mark } from '../lib/text';
+interface Props { eyebrow: string; title: string; intro?: string; crumb: string; short?: boolean }
+const { eyebrow, title, intro, crumb, short = false } = Astro.props;
+---
+<section class={`page-hero ${short ? 'page-hero--short' : ''}`} data-shot="hero">
+  <div class="container page-hero__inner">
+    <nav aria-label="Migas de pan">
+      <ol class="crumbs" data-reveal>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">{crumb}</li>
+      </ol>
+    </nav>
+    <p class="eyebrow" data-reveal style="margin-top:40px">{eyebrow}</p>
+    <h1 data-reveal="fade"><Split text={title} /></h1>
+    {intro && <p class="lead" data-reveal style="--delay:200ms" set:html={mark(intro)} />}
+    <slot />
+  </div>
+  {!short && <span class="scroll-cue" aria-hidden="true">Descubra</span>}
+</section>

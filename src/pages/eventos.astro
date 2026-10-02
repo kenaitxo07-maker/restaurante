@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Split from '../components/Split.astro';
+import Arrow from '../components/Arrow.astro';
+import FormLegal from '../components/FormLegal.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+
+const includes = [
+  { t: 'Salón privado', d: `Con entrada ${site.privateRoom.entrance} y ${site.privateRoom.equipment}.` },
+  { t: 'Menú a medida', d: `Diseñado con el chef, con maridaje y degustación previa para grupos de ${site.groupTastingMin} o más.` },
+  { t: 'Un solo interlocutor', d: 'Gestión del evento desde la primera llamada hasta la factura.' },
+];
+const audiences = [
+  { n: '01', t: 'Empresa', d: 'Comidas de empresa y atención a clientes. Puntualidad exacta y facturación clara.' },
+  { n: '02', t: 'Celebración íntima', d: 'Aniversarios y bodas íntimas, con el ritmo que marque su mesa.' },
+  { n: '03', t: 'Grupos', d: 'Cenas de grupo y celebraciones privadas, con un equipo dedicado solo a ustedes.' },
+];
+---
+<Base
+  title="Eventos privados y comidas de empresa · Áurea"
+  description={`Salón privado para ${site.privateRoomCapacity} personas, menú a medida y atención dedicada. Solicite su propuesta para celebraciones y empresa en ${site.city}.`}
+  crumb="Eventos privados"
+>
+  <PageHero
+    eyebrow="Eventos privados"
+    title="Su ocasión, a su manera."
+    intro={`Un salón privado para ${site.privateRoomCapacity} personas, un menú diseñado con el chef y un equipo dedicado solo a su mesa.`}
+    crumb="Eventos privados"
+  >
+    <div class="actions" data-reveal style="--delay:350ms;margin-top:40px">
+      <a class="btn" href="#solicitud" data-magnetic>Solicitar propuesta<Arrow /></a>
+      <a class="link" href={`tel:${site.phoneHref}`} data-cta="call">Llamar</a>
+    </div>
+  </PageHero>
+
+  <section class="section events-includes section--alt" aria-labelledby="incluye-title">
+    <div class="container grid-12">
+      <div class="events-includes__photo">
+        <Photo ratio="3:2" art="room" brief="Salón privado preparado para un grupo" alt="Salón privado de Áurea con la mesa preparada para un grupo" />
+      </div>
+      <div class="events-includes__copy">
+        <p class="eyebrow" data-reveal>Qué incluye</p>
+        <h2 id="incluye-title" data-reveal="fade"><Split text="Todo pensado antes de que llegue." /></h2>
+        <ol class="includes">
+          {includes.map((it, i) => (
+            <li data-reveal style={`--delay:${i * 100}ms`}>
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{it.t}</h3>
+                <p class="muted" set:html={mark(it.d)} />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="quien-title">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Para quién</p>
+      <h2 id="quien-title" data-reveal="fade" style="margin:20px 0 56px"><Split text="Tres formas de reunirse en Áurea." /></h2>
+      <div class="occasions__grid">
+        {audiences.map((a) => (
+          <article class="occasion occasion--compact" data-tilt data-reveal>
+            <div class="occasion__glow" aria-hidden="true"></div>
+            <span class="num">{a.n}</span>
+            <h3 class="occasion__title">{a.t}</h3>
+            <p class="occasion__text">{a.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section request section--alt" id="solicitud" aria-labelledby="solicitud-title">
+    <div class="container grid-12">
+      <div class="request__intro">
+        <p class="eyebrow" data-reveal>Solicitud</p>
+        <h2 id="solicitud-title" data-reveal="fade"><Split text="Cuéntenos su ocasión." /></h2>
+        <p class="muted" data-reveal set:html={`Le respondemos en menos de ${mark(site.eventsReplyTime)}. Si lo prefiere, llámenos al <a href="tel:${site.phoneHref}">${mark(site.phone)}</a>.`} />
+      </div>
+      <div class="request__form">
+        <form class="form-grid" data-events-form novalidate>
+          <div class="field"><label for="ev-nombre">Nombre</label><input id="ev-nombre" name="nombre" autocomplete="name" required /></div>
+          <div class="field"><label for="ev-empresa">Empresa <span class="opt">(opcional)</span></label><input id="ev-empresa" name="empresa" autocomplete="organization" /></div>
+          <div class="field"><label for="ev-correo">Correo</label><input id="ev-correo" name="correo" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="ev-tel">Teléfono</label><input id="ev-tel" name="telefono" type="tel" autocomplete="tel" required minlength="9" /></div>
+          <div class="field"><label for="ev-fecha">Fecha aproximada</label><input id="ev-fecha" name="fecha" type="date" required /></div>
+          <div class="field"><label for="ev-pax">Número de personas</label><input id="ev-pax" name="personas" type="number" min="2" max="200" inputmode="numeric" required /></div>
+          <div class="field field--full">
+            <label for="ev-tipo">Tipo de evento</label>
+            <select id="ev-tipo" name="tipo_evento" required>
+              <option value="">Elija una opción</option>
+              <option>Comida o cena de empresa</option>
+              <option>Atención a clientes</option>
+              <option>Aniversario o boda íntima</option>
+              <option>Celebración privada</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field field--full"><label for="ev-com">Comentarios</label><textarea id="ev-com" name="comentarios" rows="4" placeholder="Horario, presupuesto orientativo, alergias…"></textarea></div>
+          <label class="check field--full"><input type="checkbox" name="privacidad" required data-error="Necesitamos su aceptación para responderle." /><span>He leído y acepto la <a href="/privacidad">política de privacidad</a>.</span></label>
+          <label class="check field--full"><input type="checkbox" name="novedades" /><span>Deseo recibir novedades de Áurea por correo electrónico.</span></label>
+          <div class="field--full form-actions">
+            <button class="btn" type="submit">Solicitar propuesta<Arrow /></button>
+            <p class="form-note" set:html={`Le respondemos en menos de ${mark(site.eventsReplyTime)}.`} />
+          </div>
+          <FormLegal />
+        </form>
+        <div class="form-status" data-success hidden tabindex="-1" role="status">
+          <h3>Gracias. Hemos recibido su solicitud.</h3>
+          <p class="muted" set:html={`Le escribiremos en menos de ${mark(site.eventsReplyTime)} con una propuesta.`} />
+        </div>
+        <div class="form-status form-status--error" data-failure hidden tabindex="-1" role="alert">
+          <h3>No hemos podido enviar su solicitud.</h3>
+          <p class="muted" set:html={`Llámenos al <a href="tel:${site.phoneHref}">${mark(site.phone)}</a> y la gestionamos.`} />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

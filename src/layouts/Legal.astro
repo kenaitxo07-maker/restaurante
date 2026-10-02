@@ -1,0 +1,26 @@
+---
+import Base from './Base.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+interface Props { title: string; h1: string; description: string; crumb: string }
+const { title, h1, description, crumb } = Astro.props;
+---
+<Base title={title} description={description} crumb={crumb} scene="none">
+  <section class="page-hero page-hero--short legal-hero">
+    <div class="container page-hero__inner">
+      <nav aria-label="Migas de pan">
+        <ol class="crumbs"><li><a href="/">Inicio</a></li><li aria-current="page">{crumb}</li></ol>
+      </nav>
+      <p class="eyebrow" style="margin-top:40px">Información legal</p>
+      <h1>{h1}</h1>
+    </div>
+  </section>
+  <article class="section section--light legal">
+    <div class="container">
+      <div class="legal__body">
+        <slot />
+        <p class="legal__updated" set:html={`Última revisión: ${mark(site.legalUpdated)}.`} />
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,20 @@
+---
+/**
+ * Consentimiento de cookies: tres botones de igual peso.
+ * Nada de mapas, analítica ni píxeles hasta que la persona lo acepte.
+ */
+---
+<section class="cookies" role="dialog" aria-modal="false" aria-labelledby="cookies-title" data-cookies>
+  <h2 id="cookies-title">Su privacidad</h2>
+  <p>Usamos cookies técnicas para que la web funcione. Con su permiso, también de analítica y de terceros (mapa y reservas). Más información en la <a href="/cookies">política de cookies</a>.</p>
+  <div class="cookies__prefs" data-cookie-prefs hidden>
+    <label class="toggle"><span><strong>Técnicas</strong>Necesarias para el funcionamiento del sitio.</span><input type="checkbox" checked disabled /></label>
+    <label class="toggle"><span><strong>Analítica</strong>Medir visitas y mejorar la web.</span><input type="checkbox" name="analytics" /></label>
+    <label class="toggle"><span><strong>Terceros</strong>Mapa y motor de reservas incorporados.</span><input type="checkbox" name="thirdParty" /></label>
+  </div>
+  <div class="cookies__actions">
+    <button class="btn btn--ghost" type="button" data-cookie="reject">Rechazar</button>
+    <button class="btn btn--ghost" type="button" data-cookie="config">Configurar</button>
+    <button class="btn btn--ghost" type="button" data-cookie="accept">Aceptar</button>
+  </div>
+</section>

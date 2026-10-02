@@ -1,0 +1,31 @@
+---
+import Arrow from './Arrow.astro';
+import { mark } from '../lib/text';
+interface Props { n: string; art: 'toast' | 'knife' | 'candle'; title: string; text: string; cta: string; href: string }
+const { n, art, title, text, cta, href } = Astro.props;
+---
+<article class="occasion" data-tilt data-reveal>
+  <div class="occasion__glow" aria-hidden="true"></div>
+  <div class="occasion__top">
+    <span class="num">{n}</span>
+    <svg class="occasion__icon" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      {art === 'toast' && (<>
+        <g transform="rotate(-12 70 110)"><path d="M52 182 H88 M70 182 V136 M70 136 C 50 134, 46 112, 49 72 H 91 C 94 112, 90 134, 70 136 Z" /></g>
+        <g transform="rotate(12 130 110)"><path d="M112 182 H148 M130 182 V136 M130 136 C 110 134, 106 112, 109 72 H 151 C 154 112, 150 134, 130 136 Z" /></g>
+        <path d="M100 52 V36 M86 56 L76 44 M114 56 L124 44" />
+      </>)}
+      {art === 'knife' && (<>
+        <rect x="40" y="70" width="120" height="86" rx="2" />
+        <path d="M78 70 V56 H122 V70 M40 104 H160" />
+        <circle cx="100" cy="104" r="6" />
+      </>)}
+      {art === 'candle' && (<>
+        <path d="M100 40 C 91 55, 91 67, 100 72 C 109 67, 109 55, 100 40 Z M100 80 V72 M88 80 H112 V170 H88 Z M70 178 H130" />
+        <circle cx="100" cy="60" r="34" opacity=".4" />
+      </>)}
+    </svg>
+  </div>
+  <h3 class="occasion__title">{title}</h3>
+  <p class="occasion__text" set:html={mark(text)} />
+  <a class="link occasion__link" href={href} data-cta={cta === 'Reservar' ? 'occasion' : undefined}>{cta}<Arrow /></a>
+</article>

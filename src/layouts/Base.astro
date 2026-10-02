@@ -1,0 +1,126 @@
+---
+import '@fontsource/cormorant-garamond/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import '@fontsource/cormorant-garamond/latin-400-italic.css';
+import '@fontsource/jost/latin-300.css';
+import '@fontsource/jost/latin-400.css';
+import '@fontsource/jost/latin-500.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+import '../styles/sections.css';
+import '../styles/pages.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import site from '../data/site.json';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Escena 3D de fondo: recorrido completo en la home, escenas fijas en el resto. */
+  scene?: 'home' | 'table' | 'orbit' | 'rings' | 'none';
+  ogType?: string;
+  jsonLd?: Record<string, unknown>[];
+  /** Nombre de la página para el BreadcrumbList (páginas internas). */
+  crumb?: string;
+  intro?: boolean;
+  noindex?: boolean;
+}
+
+const { title, description, scene = 'rings', ogType = 'website', jsonLd = [], crumb, intro = false, noindex = false } = Astro.props;
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/$/, '') || '/';
+const canonical = new URL(pathname, site.url).href.replace(/\/$/, pathname === '/' ? '/' : '');
+const ogImage = new URL(site.ogImage, site.url).href;
+
+const ld = [...jsonLd];
+if (crumb) {
+  ld.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', site.url).href },
+      { '@type': 'ListItem', position: 2, name: crumb, item: canonical },
+    ],
+  });
+}
+---
+<!doctype html>
+<html lang="es-ES" data-has-intro={intro ? "on" : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#14110F" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Áurea" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Áurea, restaurante de alta cocina" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+
+    <script is:inline>
+      // Marca JS antes de pintar para no mostrar contenido sin estilos de aparición.
+      document.documentElement.classList.add('js');
+      try {
+        if (document.documentElement.dataset.hasIntro === 'on' && !sessionStorage.getItem('aurea-intro')) {
+          document.documentElement.classList.add('first-visit');
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body data-scene={scene}>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    {intro && (
+      <div class="intro" aria-hidden="true" data-intro>
+        <div class="intro__mark">
+          <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="36" cy="36" r="34" pathLength="1" />
+            <circle cx="36" cy="36" r="22" pathLength="1" />
+          </svg>
+          <span class="intro__word">ÁUREA</span>
+        </div>
+      </div>
+    )}
+
+    {scene !== 'none' && <div class="stage" data-stage aria-hidden="true"></div>}
+    <div class="grain" aria-hidden="true"></div>
+
+    <Header />
+    <main id="contenido" class="page">
+      <slot />
+    </main>
+    <Footer />
+    <MobileBar />
+    <CookieBanner />
+
+    <div class="cursor" aria-hidden="true" data-cursor>
+      <div class="cursor__ring"><span class="cursor__label" data-cursor-label></span></div>
+      <div class="cursor__dot"></div>
+    </div>
+
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

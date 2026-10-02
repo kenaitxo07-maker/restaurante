@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Áurea · Tokens de diseño «Noche dorada»
+   Cambie aquí la paleta, la tipografía y los ritmos de toda la web.
+   ========================================================================== */
+
+:root {
+  /* Paleta */
+  --carbon: #14110f;        /* Fondo principal */
+  --pizarra: #1e1a17;       /* Fondo alterno, tarjetas */
+  --pizarra-2: #262120;     /* Bordes suaves sobre pizarra */
+  --marfil: #f3ece0;        /* Texto principal */
+  --piedra: #b8ae9f;        /* Texto secundario */
+  --oro: #b8935a;           /* Acento: líneas, iconos, botón principal */
+  --oro-claro: #d4b176;     /* Hover y foco */
+  --oro-oscuro: #7a5c30;    /* Oro legible sobre crema (AA) */
+  --crema: #f7f2e9;         /* Secciones claras: menú y legales */
+  --tinta: #1e1a17;         /* Texto sobre crema */
+  --tinta-2: #5b5048;       /* Texto secundario sobre crema */
+
+  --linea: rgba(184, 147, 90, 0.38);
+  --linea-suave: rgba(184, 147, 90, 0.18);
+  --velo: rgba(20, 17, 15, 0.45);
+
+  /* Tipografía */
+  --font-serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-h1: clamp(2.6rem, 6vw, 5rem);
+  --fs-display: clamp(3rem, 9vw, 8.5rem);
+  --fs-h2: clamp(1.9rem, 3.4vw, 3rem);
+  --fs-h3: clamp(1.4rem, 2vw, 1.75rem);
+  --fs-lead: clamp(1.35rem, 2.3vw, 2rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9rem;
+  --fs-label: 0.75rem;
+  --lh-body: 1.7;
+  --tracking-label: 0.12em;
+
+  /* Rejilla y ritmo */
+  --max: 1320px;
+  --read: 68ch;
+  --gutter: clamp(20px, 5vw, 72px);
+  --col-gap: clamp(16px, 2.2vw, 32px);
+  --section: clamp(96px, 13vw, 184px);
+  --header-h: 76px;
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 560ms;
+  --dur-slow: 1100ms;
+
+  --radius: 2px;
+
+  color-scheme: dark;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-h: 64px;
+    --section: 88px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 1ms;
+    --dur-slow: 1ms;
+  }
+}

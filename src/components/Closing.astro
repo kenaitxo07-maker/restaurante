@@ -1,0 +1,17 @@
+---
+import Arrow from './Arrow.astro';
+import Split from './Split.astro';
+interface Props { title: string; text?: string; cta?: string; href?: string; secondary?: { label: string; href: string } }
+const { title, text, cta = 'Reservar mesa', href = '/reservas', secondary } = Astro.props;
+---
+<section class="closing" data-shot="closing">
+  <div class="container">
+    <p class="eyebrow eyebrow--plain" data-reveal>Áurea</p>
+    <h2 data-reveal="fade" style="margin-top:20px"><Split text={title} /></h2>
+    {text && <p data-reveal>{text}</p>}
+    <div class="actions" data-reveal style={text ? undefined : 'margin-top:40px'}>
+      <a class="btn" href={href} data-cta="closing" data-magnetic>{cta}<Arrow /></a>
+      {secondary && <a class="link" href={secondary.href}>{secondary.label}</a>}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import Legal from '../layouts/Legal.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+const m = mark;
+const rows = [
+  ['Técnicas', 'Funcionamiento del sitio y recuerdo de su elección de cookies', 'No necesario', '[cookie de consentimiento: aurea-consent]'],
+  ['Analítica', 'Medir visitas y mejorar la web', 'Sí', site.providers.analytics],
+  ['Terceros', 'Mapa y reservas incorporadas', 'Sí', `${site.providers.maps}, ${site.providers.reservations}`],
+];
+---
+<Legal title="Política de cookies · Áurea" h1="Política de cookies" crumb="Cookies" description="Qué cookies usa la web de Áurea, para qué sirven y cómo aceptarlas, rechazarlas o configurarlas en cualquier momento.">
+  <h2>Qué son</h2>
+  <p>Pequeños archivos que el sitio guarda en su dispositivo para que funcione o para obtener estadísticas.</p>
+  <h2>Qué cookies usamos</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Tipo</th><th scope="col">Finalidad</th><th scope="col">Consentimiento</th><th scope="col">Ejemplos</th></tr></thead>
+      <tbody>
+        {rows.map((r) => <tr><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td set:html={m(r[3])} /></tr>)}
+      </tbody>
+    </table>
+  </div>
+  <h2>Cómo gestionarlas</h2>
+  <p>Puede aceptar, rechazar o configurar las cookies desde el banner o desde «Configurar cookies» en el pie de página. También puede bloquearlas o borrarlas desde su navegador. Rechazarlas no impide usar el sitio, aunque algunos contenidos incrustados, como el mapa, no se mostrarán.</p>
+  <p><button class="btn btn--ghost btn--sm" type="button" data-cookie-open>Configurar cookies</button></p>
+  <h2>Actualizaciones</h2>
+  <p>Esta política puede cambiar. La fecha de la última revisión figura al final de esta página.</p>
+</Legal>

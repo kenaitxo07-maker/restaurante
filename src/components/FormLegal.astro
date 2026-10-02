@@ -1,0 +1,5 @@
+---
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+---
+<p class="form-note form-legal field--full" set:html={`Responsable: ${mark(site.legalName)}. Finalidad: gestionar su solicitud. Derechos: acceso, rectificación, supresión y otros, en <a href="mailto:${site.emailHref}">${mark(site.email)}</a>. Más información en la <a href="/privacidad">política de privacidad</a>.`} />

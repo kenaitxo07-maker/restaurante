@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import Split from '../components/Split.astro';
+import Arrow from '../components/Arrow.astro';
+import FormLegal from '../components/FormLegal.astro';
+import site from '../data/site.json';
+import { mark } from '../lib/text';
+
+const occasions = ['Aniversario', 'Cumpleaños', 'Comida de negocio', 'Primera cita', 'Pedida', 'Otra'];
+const max = site.onlineMaxGuests;
+---
+<Base
+  title={`Reservar mesa · Áurea, restaurante en ${site.city}`}
+  description="Reserve su mesa en línea en menos de un minuto. Cenas y comidas con confirmación inmediata en Áurea."
+  crumb="Reservas"
+>
+  <section class="page-hero page-hero--short" data-shot="hero">
+    <div class="container page-hero__inner">
+      <nav aria-label="Migas de pan">
+        <ol class="crumbs" data-reveal><li><a href="/">Inicio</a></li><li aria-current="page">Reservas</li></ol>
+      </nav>
+      <p class="eyebrow" data-reveal style="margin-top:40px">Reservas</p>
+      <h1 data-reveal="fade"><Split text="Reserve su mesa." /></h1>
+      <p class="lead" data-reveal style="--delay:200ms">Elija día, hora y comensales. Confirmamos al instante por correo.</p>
+    </div>
+  </section>
+
+  <section class="booking" aria-label="Formulario de reserva">
+    <div class="container booking__grid">
+      <form class="booking__form" data-reservation-form novalidate>
+        <fieldset class="step" data-group>
+          <legend class="step__legend"><span class="num">01</span> Día</legend>
+          <div class="days" data-date-chips role="radiogroup" aria-label="Día">
+            <p class="muted">Cargando días disponibles…</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-group>
+          <legend class="step__legend"><span class="num">02</span> Hora</legend>
+          <div class="slots">
+            <div>
+              <p class="label">Comida</p>
+              <div class="chips">
+                {site.slots.lunch.map((s, i) => (
+                  <label class="chip"><input type="radio" name="hora" value={s} required={i === 0} data-error="Elija una hora." /><span>{s}</span></label>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p class="label">Cena</p>
+              <div class="chips">
+                {site.slots.dinner.map((s) => (
+                  <label class="chip"><input type="radio" name="hora" value={s} /><span>{s}</span></label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__legend"><span class="num">03</span> Comensales</legend>
+          <div class="stepper">
+            <button type="button" class="stepper__btn" data-step="-1" aria-label="Un comensal menos">−</button>
+            <output class="stepper__out" data-pax-out aria-live="polite">2</output>
+            <button type="button" class="stepper__btn" data-step="1" aria-label="Un comensal más">+</button>
+            <label class="sr-only" for="r-pax">Número de comensales</label>
+            <input class="sr-only" id="r-pax" name="comensales" type="number" min="1" max={max} value="2" />
+          </div>
+          <p class="form-note" style="margin-top:14px">Mesas hasta {max} personas en línea; para más, <a href={`tel:${site.phoneHref}`}>llámenos</a> o use <a href="/eventos">eventos</a>.</p>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__legend"><span class="num">04</span> Sus datos</legend>
+          <div class="form-grid">
+            <div class="field field--full"><label for="r-nombre">Nombre</label><input id="r-nombre" name="nombre" autocomplete="name" required /></div>
+            <div class="field"><label for="r-tel">Teléfono</label><input id="r-tel" name="telefono" type="tel" autocomplete="tel" required minlength="9" /></div>
+            <div class="field"><label for="r-correo">Correo</label><input id="r-correo" name="correo" type="email" autocomplete="email" required /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__legend"><span class="num">05</span> ¿Celebra algo? <span class="opt">(opcional)</span></legend>
+          <div class="chips">
+            {occasions.map((o) => (
+              <label class="chip"><input type="radio" name="ocasion" value={o} /><span>{o}</span></label>
+            ))}
+          </div>
+          <div class="form-grid" style="margin-top:28px">
+            <div class="field field--full">
+              <label for="r-alergias">Alergias e intolerancias <span class="opt">(opcional)</span></label>
+              <textarea id="r-alergias" name="alergias" rows="3" placeholder="Indíquelas y adaptaremos el menú."></textarea>
+              <p class="hint" set:html={`Con aviso previo de ${mark(site.allergyNoticeHours)} adaptamos el menú a celíacos, vegetarianos y alérgicos.`} />
+            </div>
+            <label class="check field--full" hidden><input type="checkbox" name="consentimientoSalud" data-error="Necesitamos su consentimiento para tener en cuenta sus alergias." /><span>Consiento que se traten los datos de salud que indico (alergias o intolerancias) únicamente para adaptar mi menú.</span></label>
+          </div>
+        </fieldset>
+
+        <div class="step step--last">
+          <label class="check"><input type="checkbox" name="privacidad" required data-error="Necesitamos su aceptación para gestionar la reserva." /><span>He leído y acepto la <a href="/privacidad">política de privacidad</a>.</span></label>
+          <label class="check"><input type="checkbox" name="novedades" /><span>Deseo recibir novedades de Áurea por correo electrónico.</span></label>
+          <button class="btn btn--block booking__submit" type="submit">Confirmar reserva<Arrow /></button>
+          <FormLegal />
+        </div>
+      </form>
+
+      <aside class="summary" data-summary aria-label="Resumen de su reserva">
+        <div class="summary__card">
+          <p class="eyebrow eyebrow--plain">Su mesa</p>
+          <dl class="summary__list">
+            <div><dt>Día</dt><dd data-sum-date>Elija un día</dd></div>
+            <div><dt>Hora</dt><dd data-sum-time>Elija una hora</dd></div>
+            <div><dt>Comensales</dt><dd data-sum-pax>2 personas</dd></div>
+            <div hidden><dt>Ocasión</dt><dd data-sum-occasion></dd></div>
+          </dl>
+          <ul class="summary__notes">
+            <li set:html={`Confirmación con tarjeta como garantía. Cancelación gratuita hasta ${mark(site.cancellationHours)} antes. <span class="ph">[Confirmar con el restaurante.]</span>`} />
+            <li set:html={`Cenas desde las ${mark(site.dinnerFrom)} h. ${mark(site.hoursText)}`} />
+            <li set:html={`¿Prefiere llamar? <a href="tel:${site.phoneHref}" data-cta="call">${mark(site.phone)}</a>`} />
+          </ul>
+        </div>
+
+        <div class="form-status" data-success hidden tabindex="-1" role="status">
+          <h3>Su mesa está reservada.</h3>
+          <p>Le hemos enviado la confirmación a <strong data-ok-email></strong>. Le esperamos el <strong data-ok-date></strong> a las <strong data-ok-time></strong>.</p>
+        </div>
+        <div class="form-status form-status--error" data-failure hidden tabindex="-1" role="alert">
+          <h3>No hemos podido completar la reserva.</h3>
+          <p set:html={`Llámenos al <a href="tel:${site.phoneHref}">${mark(site.phone)}</a> y se la gestionamos.`} />
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

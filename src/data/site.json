@@ -1,0 +1,123 @@
+{
+  "name": "Áurea",
+  "url": "https://www.aurea-restaurante.es",
+  "city": "[Ciudad]",
+  "legalName": "[Razón social]",
+  "nif": "[NIF]",
+  "registry": "[Registro Mercantil, tomo, folio, hoja]",
+  "address": {
+    "street": "[Calle y número]",
+    "postalCode": "[CP]",
+    "locality": "[Ciudad]",
+    "region": "[Provincia]",
+    "country": "ES",
+    "full": "[Dirección completa]"
+  },
+  "geo": {
+    "lat": 40.4168,
+    "lng": -3.7038
+  },
+  "phone": "[Teléfono]",
+  "phoneHref": "+34000000000",
+  "email": "[correo]",
+  "emailHref": "reservas@aurea-restaurante.es",
+  "instagram": "https://www.instagram.com/[usuario]",
+  "chef": {
+    "name": "[Nombre del chef]",
+    "origin": "[territorio, técnica o escuela]",
+    "training": "[casas/ciudades]",
+    "quote": "[Una frase personal sobre su forma de trabajar.]"
+  },
+  "sommelier": "[Nombre]",
+  "tablesPerNight": "[N]",
+  "passes": "[doce]",
+  "privateRoomCapacity": "[N]",
+  "onlineMaxGuests": 6,
+  "dinnerFrom": "[20:30]",
+  "lunchDays": "[jueves a domingo]",
+  "hoursText": "[Mar–Sáb 13:30–15:30 y 20:30–23:00; cerrado domingo y lunes]",
+  "hoursShort": "[Mar–Sáb · 13:30–15:30 · 20:30–23:00]",
+  "openingHours": [
+    {
+      "days": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "13:30",
+      "closes": "15:30"
+    },
+    {
+      "days": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "20:30",
+      "closes": "23:00"
+    }
+  ],
+  "closedWeekdays": [
+    0,
+    1
+  ],
+  "slots": {
+    "lunch": [
+      "13:30",
+      "14:00",
+      "14:30",
+      "15:00"
+    ],
+    "dinner": [
+      "20:30",
+      "21:00",
+      "21:30",
+      "22:00"
+    ]
+  },
+  "parking": "[Parking / transporte]",
+  "howToGet": {
+    "car": "[Parking más cercano y servicio de aparcacoches, si lo hay]",
+    "transit": "[Líneas de metro, autobús o tren y parada más próxima]",
+    "accessibility": "[Acceso sin escalones, aseo adaptado, ascensor]"
+  },
+  "cancellationHours": "[48 h]",
+  "allergyNoticeHours": "[48 h]",
+  "eventsReplyTime": "[24 h laborables]",
+  "groupTastingMin": "[N]",
+  "privateRoom": {
+    "entrance": "[independiente]",
+    "equipment": "[equipamiento de proyección o sonido]"
+  },
+  "priceRange": "€€€€",
+  "cuisine": [
+    "Cocina de autor",
+    "Alta cocina",
+    "Cocina de temporada"
+  ],
+  "forms": {
+    "reservationEndpoint": "",
+    "eventsEndpoint": ""
+  },
+  "providers": {
+    "reservations": "[motor de reservas]",
+    "hosting": "[hosting]",
+    "mail": "[servicio de correo]",
+    "analytics": "[Plausible/GA4]",
+    "maps": "[Google Maps]"
+  },
+  "dataRetention": "[1 año]",
+  "legalUpdated": "[fecha]",
+  "year": 2026,
+  "reviews": [],
+  "awards": [],
+  "analytics": {
+    "plausibleDomain": "",
+    "plausibleSrc": "https://plausible.io/js/script.js"
+  },
+  "ogImage": "/og-image.jpg"
+}

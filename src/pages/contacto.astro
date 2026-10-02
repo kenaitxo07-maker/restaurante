@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import Split from '../components/Split.astro';
+import Arrow from '../components/Arrow.astro';
+import site from '../data/site.json';
+import { mark, plain } from '../lib/text';
+
+const { lat, lng } = site.geo;
+const d = 0.006;
+const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - d}%2C${lat - d / 2}%2C${lng + d}%2C${lat + d / 2}&layer=mapnik&marker=${lat}%2C${lng}`;
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+---
+<Base
+  title="Contacto y cómo llegar · Áurea"
+  description={`${plain(site.address.full)}, ${plain(site.city)}. Teléfono ${plain(site.phone)}, horario y cómo llegar en coche o transporte público.`}
+  crumb="Contacto"
+>
+  <section class="page-hero page-hero--short" data-shot="hero">
+    <div class="container page-hero__inner">
+      <nav aria-label="Migas de pan">
+        <ol class="crumbs" data-reveal><li><a href="/">Inicio</a></li><li aria-current="page">Contacto</li></ol>
+      </nav>
+      <p class="eyebrow" data-reveal style="margin-top:40px">Contacto y cómo llegar</p>
+      <h1 data-reveal="fade"><Split text="Cómo encontrarnos." /></h1>
+      <div class="actions" data-reveal style="--delay:250ms;margin-top:40px">
+        <a class="btn" href={`tel:${site.phoneHref}`} data-cta="call" data-magnetic>Llamar<Arrow /></a>
+        <a class="btn btn--ghost" href={directions} rel="noopener" target="_blank">Cómo llegar</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" aria-label="Datos de contacto">
+    <div class="container grid-12">
+      <dl class="contact__data">
+        <div data-reveal><dt>Dirección</dt><dd set:html={mark(site.address.full)} /></div>
+        <div data-reveal><dt>Teléfono</dt><dd><a href={`tel:${site.phoneHref}`} data-cta="call" set:html={mark(site.phone)} /></dd></div>
+        <div data-reveal><dt>Correo</dt><dd><a href={`mailto:${site.emailHref}`} set:html={mark(site.email)} /></dd></div>
+        <div data-reveal><dt>Horario</dt><dd set:html={mark(site.hoursText)} /></div>
+      </dl>
+      <div class="contact__how">
+        <h2 data-reveal="fade"><Split text="Cómo llegar." /></h2>
+        <ul class="how">
+          <li data-reveal>
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M5 20l3-8h16l3 8v5H5z M5 20h22 M9 25v2 M23 25v2" /><circle cx="10" cy="21.5" r="1" /><circle cx="22" cy="21.5" r="1" /></svg>
+            <div><h3>En coche</h3><p class="muted" set:html={mark(site.howToGet.car)} /></div>
+          </li>
+          <li data-reveal>
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="8" y="5" width="16" height="19" rx="3" /><path d="M8 16h16 M11 27l2-3 M21 27l-2-3" /><circle cx="12" cy="20" r="1" /><circle cx="20" cy="20" r="1" /></svg>
+            <div><h3>En transporte público</h3><p class="muted" set:html={mark(site.howToGet.transit)} /></div>
+          </li>
+          <li data-reveal>
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="16" cy="6" r="2.5" /><path d="M16 9v9h7l3 7 M16 13h7 M12 14a8 8 0 1 0 10 10" /></svg>
+            <div><h3>Accesibilidad</h3><p class="muted" set:html={mark(site.howToGet.accessibility)} /></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="map-block" aria-label="Mapa">
+    <div class="container">
+      <div class="map" data-map data-src={osm}>
+        <div class="map__placeholder" data-map-placeholder>
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="map__lines">
+            <path d="M0 140 C 80 120, 120 160, 200 130 S 320 90, 400 110" opacity=".5" />
+            <path d="M40 0 L 120 200 M 260 0 L 230 200 M 0 60 H 400" opacity=".3" />
+            <circle cx="200" cy="100" r="6" fill="currentColor" />
+            <circle cx="200" cy="100" r="22" opacity=".6" />
+            <circle cx="200" cy="100" r="44" opacity=".25" />
+          </svg>
+          <p>El mapa se carga desde OpenStreetMap solo si acepta las cookies de terceros.</p>
+          <div class="actions">
+            <button class="btn btn--sm" type="button" data-map-accept>Aceptar y ver el mapa</button>
+            <a class="link" href={directions} rel="noopener" target="_blank">Abrir en Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing" data-shot="closing">
+    <div class="container">
+      <p class="eyebrow eyebrow--plain" data-reveal>Áurea</p>
+      <h2 data-reveal="fade" style="margin-top:20px"><Split text="Su mesa le espera." /></h2>
+      <p data-reveal set:html={`Reserve en línea en menos de un minuto o llámenos al ${mark(site.phone)}.`} />
+      <div class="actions" data-reveal>
+        <a class="btn" href="/reservas" data-cta="closing" data-magnetic>Reservar mesa<Arrow /></a>
+        <a class="link" href="/menus">Ver el menú</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Split from '../components/Split.astro';
+import Closing from '../components/Closing.astro';
+import site from '../data/site.json';
+import menus from '../data/menus.json';
+import { mark, plain } from '../lib/text';
+
+const chapters = [
+  {
+    id: 'cocina',
+    n: 'I',
+    label: 'Nuestra cocina',
+    title: 'El producto manda, no el calendario.',
+    text: `Cocinamos en [brasa/fondos/fermentos: la técnica propia]. Trabajamos con [N] proveedores de [zona] a los que visitamos en persona. La carta cambia [cada temporada] porque el producto manda, no el calendario.`,
+    facts: ['[N] proveedores', 'Carta de temporada', 'Pescado de lonja diaria'],
+    photo: { art: 'fish', brief: 'Brasa y producto del día', alt: 'Pescado de lonja sobre la brasa en la cocina de Áurea', ratio: '3:2' },
+    side: 'right',
+  },
+  {
+    id: 'sala',
+    n: 'II',
+    label: 'La sala',
+    title: 'Luz baja y espacio entre mesas.',
+    text: `[Diseño de la sala: materiales, luz, aforo]. ${site.tablesPerNight} mesas, separadas lo suficiente para conversar sin elevar la voz. Una zona de [barra/salón privado] para quien prefiera [lo que sea].`,
+    facts: [`${site.tablesPerNight} mesas`, 'Luz baja', 'Acústica cuidada'],
+    photo: { art: 'room', brief: 'Sala vacía antes del servicio', alt: 'Sala de Áurea con mesas vestidas y luz baja antes del servicio', ratio: '3:2' },
+    side: 'left',
+  },
+  {
+    id: 'servicio',
+    n: 'III',
+    label: 'El servicio',
+    title: 'El buen servicio es el que no se nota hasta que lo necesita.',
+    text: 'Nuestro equipo de sala conoce cada plato, sus ingredientes y alérgenos, y le acompaña sin interrumpir.',
+    facts: ['Alérgenos de cada pase', 'Ritmo marcado por la mesa'],
+    photo: { art: 'glass', brief: 'Servicio de vino en sala', alt: 'Sumiller sirviendo una copa de vino en una mesa de Áurea', ratio: '3:2' },
+    side: 'right',
+  },
+  {
+    id: 'bodega',
+    n: 'IV',
+    label: 'La bodega',
+    title: `${menus.cellar.references} referencias, una copa para cada pase.`,
+    text: `${menus.cellar.references} referencias de ${menus.cellar.zones}. Una selección que incluye [vinos de la zona, grandes clásicos y pequeños productores]. Nuestro sumiller ${site.sommelier} le propone maridajes con o sin alcohol.`,
+    facts: ['Maridaje clásico', 'Maridaje premium', 'Maridaje sin alcohol'],
+    photo: { art: 'bottle', brief: 'Bodega en penumbra', alt: 'Botellas de la bodega de Áurea en penumbra', ratio: '3:2' },
+    side: 'left',
+  },
+] as const;
+
+const night = [
+  { t: site.dinnerFrom, h: 'Llegada', d: 'Le acompañamos a su mesa. A partir de aquí, usted no tiene que pensar en nada más.' },
+  { t: 'Primer pase', h: 'Aperitivo en sala', d: 'Los primeros bocados llegan con la primera copa, mientras se acomoda.' },
+  { t: 'Unas tres horas', h: 'El recorrido', d: `${site.passes} pases a su ritmo. La cocina espera a la mesa, no al revés.` },
+  { t: 'Al final', h: 'Sobremesa', d: 'Café, petits fours y, si lo desea, un último vino. Sin prisa por levantarse.' },
+];
+---
+<Base
+  title={`La experiencia · Áurea, alta cocina en ${site.city}`}
+  description={`Producto de temporada, sala íntima y un servicio que se anticipa. Conozca la cocina del chef ${site.chef.name} y la bodega de Áurea.`}
+  scene="table"
+  crumb="La experiencia"
+>
+  <PageHero
+    eyebrow="La experiencia"
+    title="Cocina, sala y tiempo."
+    intro="Áurea nace de una convicción: una gran cena no se mide en platos, sino en cómo se siente cada minuto."
+    crumb="La experiencia"
+  />
+
+  {chapters.map((c) => (
+    <section class={`chapter chapter--${c.side}`} data-shot={c.id} id={c.id} aria-labelledby={`${c.id}-title`}>
+      <div class="container chapter__grid">
+        <div class="chapter__panel">
+          <p class="chapter__n num" data-reveal>{c.n}</p>
+          <p class="eyebrow eyebrow--plain" data-reveal>{c.label}</p>
+          <h2 id={`${c.id}-title`} data-reveal="fade"><Split text={c.title} /></h2>
+          <p class="chapter__text" data-reveal set:html={mark(c.text)} />
+          <ul class="chapter__facts" data-reveal>
+            {c.facts.map((f) => <li set:html={mark(f)} />)}
+          </ul>
+        </div>
+        <div class="chapter__photo" data-reveal>
+          <Photo ratio={c.photo.ratio} art={c.photo.art} brief={c.photo.brief} alt={c.photo.alt} />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section night" aria-labelledby="noche-title">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Su noche</p>
+      <h2 id="noche-title" data-reveal="fade"><Split text="Qué ocurre desde que entra hasta que se marcha." /></h2>
+      <ol class="night__list">
+        {night.map((s, i) => (
+          <li class="night__step" data-reveal style={`--delay:${i * 120}ms`}>
+            <span class="night__time" set:html={mark(s.t)} />
+            <h3>{s.h}</h3>
+            <p set:html={mark(s.d)} />
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section chef chef--page" aria-labelledby="chef-title">
+    <div class="container grid-12 chef__grid">
+      <div class="chef__photo">
+        <Photo ratio="4:5" art="knife" brief="Retrato del chef, luz lateral" alt={`${plain(site.chef.name)}, chef de Áurea`} light="30% 30%" />
+      </div>
+      <div class="chef__copy">
+        <p class="eyebrow" data-reveal>El chef</p>
+        <h2 id="chef-title" data-reveal="fade"><Split text={`Cocina de ${site.chef.name}.`} /></h2>
+        <p data-reveal set:html={`${mark(site.chef.name)} cocina lo que conoce y respeta: ${mark(site.chef.origin)}. Formado en ${mark(site.chef.training)}, regresó a ${mark(site.city)} para abrir Áurea con una idea sencilla: menos artificio, más producto.`} />
+        <blockquote class="chef__quote" data-reveal set:html={mark(site.chef.quote)} />
+        <a class="link" href="/menus" data-reveal>Descubra el menú</a>
+      </div>
+    </div>
+  </section>
+
+  <Closing title="¿Listo para vivirlo?" text="Reserve en línea en menos de un minuto. Si celebra algo, cuéntenoslo." secondary={{ label: 'Ver el menú', href: '/menus' }} />
+</Base>

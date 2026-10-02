@@ -1,0 +1,47 @@
+{
+  "season": "[Temporada de otoño]",
+  "tasting": {
+    "name": "Menú degustación",
+    "price": "[XX] €",
+    "pairingFrom": "[XX] €",
+    "duration": "unas tres horas",
+    "courses": [
+      { "n": "Aperitivo en sala", "d": "[snack de temporada]", "time": "20:30", "dish": "snack" },
+      { "n": "Huerta", "d": "[Verdura asada, caldo ahumado y aceite de hierbas]", "time": "20:50", "dish": "verdura" },
+      { "n": "Crudo", "d": "[Crudo de pescado, cítrico y flor]", "time": "21:10", "dish": "crudo" },
+      { "n": "Huevo", "d": "[Huevo, trufa y patata]", "time": "21:30", "dish": "huevo" },
+      { "n": "Lonja", "d": "[Pescado a la brasa, salsa de su espina]", "time": "21:55", "dish": "pescado" },
+      { "n": "Brasa", "d": "[Cordero lechal, jugo reducido y encurtidos]", "time": "22:20", "dish": "cordero" },
+      { "n": "Prepostre", "d": "[Prepostre de temporada]", "time": "22:45", "dish": "prepostre" },
+      { "n": "Postre", "d": "[Postre principal]", "time": "23:05", "dish": "postre" },
+      { "n": "Sobremesa", "d": "Café y petits fours", "time": "23:30", "dish": "cafe" }
+    ]
+  },
+  "lunch": {
+    "name": "Menú de mediodía",
+    "price": "[XX] €",
+    "description": "Entrante, principal y postre, con una copa de vino.",
+    "courses": [
+      { "n": "Entrante", "d": "[Entrante de temporada]" },
+      { "n": "Principal", "d": "[Pescado o carne del día]" },
+      { "n": "Postre", "d": "[Postre de mediodía]" },
+      { "n": "Copa de vino", "d": "[Vino seleccionado por el sumiller]" }
+    ]
+  },
+  "pairings": [
+    { "n": "Maridaje clásico", "price": "[XX] €", "d": "[Vinos de la zona y grandes clásicos, uno por pase]" },
+    { "n": "Maridaje premium", "price": "[XX] €", "d": "[Añadas especiales y pequeños productores]" },
+    { "n": "Maridaje sin alcohol", "price": "[XX] €", "d": "[Fermentados, infusiones y zumos de temporada]" }
+  ],
+  "cellar": {
+    "references": "[N]",
+    "zones": "[zonas]",
+    "sections": [
+      { "n": "Vinos de la zona", "d": "[Productores cercanos a los que visitamos en persona]" },
+      { "n": "Grandes clásicos", "d": "[Regiones y añadas de referencia]" },
+      { "n": "Pequeños productores", "d": "[Elaboraciones cortas y viticultura cuidadosa]" },
+      { "n": "Por copas", "d": "[Selección que cambia cada semana]" }
+    ]
+  },
+  "allergies": "Adaptamos el menú a celíacos, vegetarianos y alérgicos con aviso previo de [48 h]. Indíquelo al reservar."
+}
