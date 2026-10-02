@@ -49,6 +49,10 @@ Reacciona en tiempo real al cursor (anillos, mesa y llama), a la velocidad del s
 **Rendimiento y accesibilidad**
 
 - La escena se descarga **después** de pintar la página (`requestIdleCallback`), así no afecta al LCP. Three.js va en un fragmento aparte (~145 kB gzip); el JS de la página pesa ~13 kB gzip.
+- **El render 3D vive en un Web Worker con OffscreenCanvas** (`src/scripts/experience/worker.ts`). Compilar shaders y dibujar no bloquea nunca el scroll de la página. Si el navegador no lo admite, el mismo núcleo (`core.ts`) se ejecuta en la página. Añada `?noworker` a la URL para probar esa ruta.
+- **Shaders precompilados antes de mostrarse:** cada estación (anillos, mesa, reloj de pases, cierre) se compila y se sube a la GPU por orden de cercanía, de programa en programa y en ratos libres. Una estación no se dibuja hasta estar lista.
+- **El número de luces no cambia nunca:** las estaciones lejanas se ocultan cambiando la capa de sus mallas, no con `visible`, para que Three.js no tenga que recompilar todos los materiales al aparecer la mesa (era la causa de los parones de varios segundos).
+- `checkShaderErrors` solo está activo en desarrollo, y el dibujo se pausa cuando una sección opaca tapa el lienzo o la pestaña está oculta.
 - Con `prefers-reduced-motion`, ahorro de datos o sin WebGL **no se carga** la escena: se muestra un fondo cálido estático y todo el contenido funciona igual.
 - Calidad adaptativa: si el equipo no llega a 35 fps se reduce la resolución del lienzo. En móvil hay menos partículas y sin antialias.
 - Para revisar encuadres sin suavizado añada `?snap` a la URL.

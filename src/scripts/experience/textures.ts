@@ -2,9 +2,10 @@
 import * as THREE from 'three';
 
 function canvasTexture(size: number, draw: (ctx: CanvasRenderingContext2D, s: number) => void, srgb = true) {
-  const c = document.createElement('canvas');
+  // En el worker no hay DOM: OffscreenCanvas sirve igual para dibujar la textura.
+  const c = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(size, size) : document.createElement('canvas');
   c.width = c.height = size;
-  draw(c.getContext('2d')!, size);
+  draw(c.getContext('2d') as CanvasRenderingContext2D, size);
   const tex = new THREE.CanvasTexture(c);
   if (srgb) tex.colorSpace = THREE.SRGBColorSpace;
   return tex;

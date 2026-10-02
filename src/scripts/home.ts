@@ -5,6 +5,9 @@
  */
 import { onFrame, scrollTo, state } from './scroll';
 import { clamp, range } from './env';
+import { MENU_IN, MENU_OUT } from './experience/constants';
+
+export { MENU_IN, MENU_OUT };
 
 function wrapWords(el: HTMLElement) {
   const out: HTMLElement[] = [];
@@ -81,9 +84,6 @@ const toMin = (t: string) => {
 };
 const fmt = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(Math.floor(m % 60)).padStart(2, '0')}`;
 
-/** Márgenes del recorrido dentro de la sección fijada del menú. */
-export const MENU_IN = 0.04;
-export const MENU_OUT = 0.94;
 
 function initMenu() {
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-course]'));
